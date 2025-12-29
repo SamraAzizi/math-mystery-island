@@ -128,7 +128,39 @@
   - Teachers can view their students' data
   - Public read access for zones, puzzles, and achievements
 */
+-- Create a function to handle new user signup
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- Insert into profiles table
+  INSERT INTO public.profiles (id, username, role, grade_level)
+  VALUES (
+    NEW.id,
+    COALESCE(NEW.raw_user_meta_data->>'username', split_part(NEW.email, '@', 1)),
+    COALESCE((NEW.raw_user_meta_data->>'role')::user_role, 'student'),
+    COALESCE((NEW.raw_user_meta_data->>'grade_level')::integer, 5)
+  );
+  
+  -- Insert into avatars table
+  INSERT INTO public.avatars (user_id)
+  VALUES (NEW.id);
+  
+  -- Unlock the first zone
+  INSERT INTO public.unlocked_zones (user_id, zone_id)
+  SELECT NEW.id, id 
+  FROM public.zones 
+  WHERE order_index = 1
+  ON CONFLICT DO NOTHING;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
+-- Create trigger for new user signup
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 -- Create enum types
 DO $$ BEGIN
   CREATE TYPE user_role AS ENUM ('student', 'teacher', 'parent');
