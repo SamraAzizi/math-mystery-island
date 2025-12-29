@@ -118,3 +118,162 @@ src/
 All tables have Row-Level Security policies enabled to protect user data.
 
 ## Usage Guide
+
+### For Students
+1. **Sign Up**: Create account with username, email, password, and grade level
+2. **Explore**: Start in Geometry Glacier with unlocked puzzles
+3. **Solve Puzzles**: Click "Solve" to attempt puzzles
+4. **Use Hints**: Request up to 3 hints per puzzle
+5. **Earn Gems**: Get gems for correct answers
+6. **Unlock Zones**: Solve puzzles to unlock new zones
+7. **Track Progress**: View dashboard for learning analytics
+
+### For Teachers/Parents
+1. **Create Account**: Select Teacher or Parent role
+2. **Monitor Progress**: Access learning dashboard
+3. **View Analytics**: See student performance and weak areas
+4. **Track Improvement**: Review completion rates and time spent
+
+## Features By Page
+
+### Home Page
+- Hero section with feature showcase
+- Call-to-action button
+- Statistics display (150+ puzzles, 4 zones, 50+ hours)
+
+### Island Page
+- Interactive zone map
+- Unlock requirements display
+- Progress bars per zone
+- Zone selection interface
+
+### Zone Detail Page
+- Browse all puzzles in a zone
+- View difficulty and grade level
+- Check math concepts covered
+- Time estimates and gem rewards
+
+### Puzzle Solver
+- Problem presentation
+- Multiple input methods
+- 3-level hint system
+- Real-time feedback
+- Timer and attempt tracking
+
+### Profile Page
+- Avatar customization
+- Personal statistics
+- Gems counter
+- Puzzles solved
+- Time spent tracking
+
+### Dashboard
+- Completion rate
+- Weak area identification
+- Recent activity feed
+- Performance metrics
+
+### Achievements Page
+- Badge collection display
+- Category filtering
+- Progress circle
+- Unlock dates
+
+## API & Database Operations
+
+### Authentication Flow
+- Users sign up with email/password
+- Automatic profile creation
+- First zone auto-unlocked
+- Avatar initialized with defaults
+
+### Puzzle Completion
+- Validates answer and updates progress
+- Awards gems to user account
+- Checks for zone unlocks
+- Tracks hints and attempts
+- Records completion timestamp
+
+### Data Retrieval
+- Lazy-loaded zone and puzzle data
+- Progress cached per session
+- Avatar customization persisted
+- Achievement status tracked
+
+## Security
+
+- **RLS Enabled**: All tables protected with Row-Level Security
+- **User Isolation**: Users can only access their own data
+- **Authentication**: Supabase auth with email/password
+- **No Client Secrets**: API key is anon key with limited permissions
+- **Ownership Checks**: All update/delete operations verified
+
+## Performance
+
+- **Build Size**: ~326KB JavaScript (gzipped: ~93KB)
+- **CSS**: ~25KB (gzipped: ~4.8KB)
+- **Database Indexes**: Optimized for common queries
+- **Lazy Loading**: Components load on demand
+- **Responsive Design**: Mobile-first approach
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Future Enhancements
+
+- AI-powered hint generation
+- Spaced repetition system
+- Real-time multiplayer challenges
+- Custom puzzle creation tool
+- Teacher classroom management dashboard
+- Mobile app version
+- Offline mode
+- Social features and leaderboards
+- Advanced analytics for educators
+- Voice-based puzzle instructions
+
+## Troubleshooting
+
+### Can't login?
+- Verify Supabase URL and key in .env
+- Check email exists in database
+- Confirm password is correct
+
+### Puzzles not loading?
+- Check database connection
+- Verify zones and puzzles exist in database
+- Clear browser cache
+
+### Gems not updating?
+- Refresh page after solving puzzle
+- Check user profile in database
+- Verify RLS policies are correct
+
+## Contributing
+
+This is an educational project. Feel free to:
+- Add more puzzles
+- Create new zones
+- Design new puzzle types
+- Improve UI/UX
+- Optimize performance
+
+## License
+
+Educational use only. Contact for commercial licensing.
+
+## Support
+
+For issues or questions:
+1. Check the troubleshooting section
+2. Verify database setup
+3. Review browser console for errors
+4. Ensure environment variables are set correctly
+
+---
+
+**Start your mathematical adventure today!**
