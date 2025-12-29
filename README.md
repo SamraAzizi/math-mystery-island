@@ -22,4 +22,29 @@ An educational game platform where students solve math puzzles to explore a virt
 ### Game Mechanics
 - **Adaptive Difficulty**: Puzzles scale based on grade level
 - **Multiple Puzzle Types**: Door riddles, bridge building, treasure maps, pattern paths, environmental puzzles
-- **Progress Persistence**: All progress automatically saved to 
+- **Progress Persistence**: All progress automatically saved to database
+- **Real-time Feedback**: Instant validation and encouragement
+
+## Tech Stack
+
+- **Frontend**: React 18 + TypeScript + Vite
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth (Email/Password)
+- **Hosting Ready**: Build optimized for production deployment
+
+## Getting Started
+
+### Prerequisites
+- Node.js 16+
+- npm or yarn
+- Supabase account with database configured
+
+### Setup Instructions
+
+1. **Clone and Install**
+   ```bash
+   npm install
+   ```
+
