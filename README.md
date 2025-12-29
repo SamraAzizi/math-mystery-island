@@ -262,18 +262,6 @@ This is an educational project. Feel free to:
 - Improve UI/UX
 - Optimize performance
 
-## License
 
-Educational use only. Contact for commercial licensing.
-
-## Support
-
-For issues or questions:
-1. Check the troubleshooting section
-2. Verify database setup
-3. Review browser console for errors
-4. Ensure environment variables are set correctly
-
----
 
 **Start your mathematical adventure today!**
