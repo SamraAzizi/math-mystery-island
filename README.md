@@ -48,3 +48,73 @@ An educational game platform where students solve math puzzles to explore a virt
    npm install
    ```
 
+2. **Environment Variables**
+   Create a `.env` file with your Supabase credentials:
+   ```
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+3. **Database Setup**
+   The database schema is automatically created via migrations. All tables include:
+   - Row-Level Security (RLS) policies
+   - Proper indexes for performance
+   - Foreign key relationships
+
+4. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
+   The app will start at `http://localhost:5173`
+
+5. **Build for Production**
+   ```bash
+   npm run build
+   ```
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── auth/
+│   │   ├── LoginPage.tsx
+│   │   └── SignupPage.tsx
+│   ├── AchievementsPage.tsx
+│   ├── DashboardPage.tsx
+│   ├── HomePage.tsx
+│   ├── IslandPage.tsx
+│   ├── Navigation.tsx
+│   ├── ProfilePage.tsx
+│   ├── PuzzleSolvePage.tsx
+│   └── ZoneDetailPage.tsx
+├── contexts/
+│   └── AuthContext.tsx
+├── lib/
+│   └── supabase.ts
+├── App.tsx
+├── main.tsx
+└── index.css
+```
+
+## Database Schema
+
+### Core Tables
+- **profiles**: User account data with role and grade level
+- **avatars**: Avatar customization per user
+- **zones**: 4 main game zones
+- **puzzles**: 150+ math puzzles with metadata
+- **user_progress**: Puzzle completion tracking
+- **unlocked_zones**: Zone unlock status per user
+
+### Engagement Tables
+- **achievements**: Badge definitions
+- **user_achievements**: Earned achievements
+- **teams**: Multiplayer team grouping
+- **team_members**: Team membership
+- **custom_puzzles**: User-created puzzles
+- **leaderboard_entries**: Ranking data
+
+All tables have Row-Level Security policies enabled to protect user data.
+
+## Usage Guide
