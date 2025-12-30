@@ -1,21 +1,28 @@
-import { BookOpen, Map, User, BarChart, Trophy, LogOut, Gem } from 'lucide-react';
+import { BookOpen, Map, User, BarChart, Trophy, LogOut, Gem, Users } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface NavigationProps {
   currentPage: string;
   onNavigate: (page: string) => void;
+  role?: 'student' | 'teacher' | 'parent' | null;
 }
 
-export function Navigation({ currentPage, onNavigate }: NavigationProps) {
+export function Navigation({ currentPage, onNavigate, role }: NavigationProps) {
   const { profile, signOut } = useAuth();
 
-  const navItems = [
-    { id: 'home', label: 'Home', icon: BookOpen },
-    { id: 'island', label: 'Island', icon: Map },
-    { id: 'profile', label: 'Profile', icon: User },
-    { id: 'dashboard', label: 'Dashboard', icon: BarChart },
-    { id: 'achievements', label: 'Achievements', icon: Trophy },
-  ];
+  const navItems = role === 'teacher'
+    ? [
+        { id: 'teacher-dashboard', label: 'Dashboard', icon: Users },
+        { id: 'profile', label: 'Profile', icon: User },
+      ]
+    : [
+        { id: 'home', label: 'Home', icon: BookOpen },
+        { id: 'island', label: 'Island', icon: Map },
+        { id: 'profile', label: 'Profile', icon: User },
+        { id: 'dashboard', label: 'Dashboard', icon: BarChart },
+        { id: 'review', label: 'Review', icon: RefreshCw },
+        { id: 'achievements', label: 'Achievements', icon: Trophy },
+      ];
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -54,13 +61,20 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           <div className="flex items-center space-x-4">
             {profile && (
               <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2 bg-amber-100 px-3 py-1 rounded-full">
-                  <Gem className="w-4 h-4 text-amber-600" />
-                  <span className="font-semibold text-amber-900">{profile.total_gems}</span>
-                </div>
+                {role !== 'teacher' && (
+                  <div className="flex items-center space-x-2 bg-amber-100 px-3 py-1 rounded-full">
+                    <Gem className="w-4 h-4 text-amber-600" />
+                    <span className="font-semibold text-amber-900">{profile.total_gems}</span>
+                  </div>
+                )}
                 <div className="hidden sm:block text-sm">
                   <div className="font-semibold text-gray-800">{profile.username}</div>
-                  <div className="text-gray-500 text-xs">Grade {profile.grade_level}</div>
+                  {role !== 'teacher' && (
+                    <div className="text-gray-500 text-xs">Grade {profile.grade_level}</div>
+                  )}
+                  {role === 'teacher' && (
+                    <div className="text-gray-500 text-xs">Teacher</div>
+                  )}
                 </div>
               </div>
             )}
