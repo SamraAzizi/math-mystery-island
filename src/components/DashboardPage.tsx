@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { BarChart, TrendingUp, Target, Clock, Zap, Award } from 'lucide-react';
+import { BarChart, TrendingUp, Target, Clock, Zap, Award, RefreshCw, AlertCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { getReviewStats } from '../lib/spacedRepetition';
 
 export function DashboardPage() {
   const { user } = useAuth();
@@ -12,6 +13,12 @@ export function DashboardPage() {
     totalTime: 0,
     weakAreas: [] as { concept: string; accuracy: number }[],
     recentActivity: [] as { puzzle_title: string; completed: boolean; completed_at: string }[],
+  });
+  const [reviewStats, setReviewStats] = useState({
+    due_count: 0,
+    total_tracked: 0,
+    reviews_today: 0,
+    avg_quality: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -73,6 +80,9 @@ export function DashboardPage() {
       });
     }
 
+    const srStats = await getReviewStats(user.id);
+    setReviewStats(srStats);
+
     setLoading(false);
   };
 
@@ -118,7 +128,7 @@ export function DashboardPage() {
           <p className="text-gray-600">Track your progress and identify areas for improvement</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-6 mb-8">
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <div className="flex items-center space-x-3 mb-2">
               <div className="bg-blue-100 p-3 rounded-xl">
@@ -163,6 +173,30 @@ export function DashboardPage() {
               <div>
                 <p className="text-sm text-gray-600">Time Spent</p>
                 <p className="text-2xl font-bold text-gray-800">{formatTime(stats.totalTime)}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <div className="flex items-center space-x-3 mb-2">
+              <div className="bg-red-100 p-3 rounded-xl">
+                <AlertCircle className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Reviews Due</p>
+                <p className="text-2xl font-bold text-gray-800">{reviewStats.due_count}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <div className="flex items-center space-x-3 mb-2">
+              <div className="bg-cyan-100 p-3 rounded-xl">
+                <RefreshCw className="w-6 h-6 text-cyan-600" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Being Tracked</p>
+                <p className="text-2xl font-bold text-gray-800">{reviewStats.total_tracked}</p>
               </div>
             </div>
           </div>
