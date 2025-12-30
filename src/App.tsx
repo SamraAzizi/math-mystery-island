@@ -10,15 +10,19 @@ import { PuzzleSolvePage } from './components/PuzzleSolvePage';
 import { ProfilePage } from './components/ProfilePage';
 import { DashboardPage } from './components/DashboardPage';
 import { AchievementsPage } from './components/AchievementsPage';
+import TeacherDashboardPage from './components/TeacherDashboardPage';
+import ReviewPage from './components/ReviewPage';
+import { useUserRole } from './hooks/useUserRole';
 
 function AppContent() {
   const { user, loading } = useAuth();
+  const { role, loading: roleLoading } = useUserRole();
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedZoneId, setSelectedZoneId] = useState<string | null>(null);
   const [selectedPuzzleId, setSelectedPuzzleId] = useState<string | null>(null);
 
-  if (loading) {
+  if (loading || roleLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center">
         <div className="text-center">
@@ -90,13 +94,24 @@ function AppContent() {
     );
   }
 
+  if (role === 'teacher') {
+    return (
+      <>
+        <Navigation currentPage={currentPage} onNavigate={handleNavigate} role={role} />
+        {currentPage === 'teacher-dashboard' && <TeacherDashboardPage />}
+        {currentPage === 'profile' && <ProfilePage />}
+      </>
+    );
+  }
+
   return (
     <>
-      <Navigation currentPage={currentPage} onNavigate={handleNavigate} />
+      <Navigation currentPage={currentPage} onNavigate={handleNavigate} role={role} />
       {currentPage === 'home' && <HomePage onStartAdventure={() => handleNavigate('island')} />}
       {currentPage === 'island' && <IslandPage onSelectZone={handleSelectZone} />}
       {currentPage === 'profile' && <ProfilePage />}
       {currentPage === 'dashboard' && <DashboardPage />}
+      {currentPage === 'review' && <ReviewPage />}
       {currentPage === 'achievements' && <AchievementsPage />}
     </>
   );
