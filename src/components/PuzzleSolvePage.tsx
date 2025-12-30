@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, Lightbulb, Clock, CheckCircle, XCircle, Sparkles } from 'lucide-react';
 import { supabase, Puzzle } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { initializeSpacedRepetition, recordReview } from '../lib/spacedRepetition';
 
 interface PuzzleSolvePageProps {
   puzzleId: string;
@@ -145,6 +146,11 @@ export function PuzzleSolvePage({ puzzleId, onBack, onComplete }: PuzzleSolvePag
 
       await refreshProfile();
 
+      await initializeSpacedRepetition(user.id, puzzleId);
+
+      const qualityScore = calculateQualityScore(newAttempts, hintsUsed);
+      await recordReview(user.id, puzzleId, qualityScore, timeSpent);
+
       setFeedback({
         type: 'success',
         message: `Correct! You earned ${puzzle.gems_reward} gems!`,
@@ -228,6 +234,14 @@ export function PuzzleSolvePage({ puzzleId, onBack, onComplete }: PuzzleSolvePag
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const calculateQualityScore = (attempts: number, hintsUsed: number): number => {
+    if (attempts === 1 && hintsUsed === 0) return 5;
+    if (attempts === 1 && hintsUsed <= 2) return 4;
+    if (attempts <= 3 && hintsUsed <= 2) return 4;
+    if (attempts <= 5 && hintsUsed <= 3) return 3;
+    return 3;
   };
 
   if (loading) {
